@@ -304,6 +304,7 @@
 
       function PlayPlaylist(spotify_uri){
         var tok = localStorage.getItem('sp-access-token');
+        console.log(tok);
         fetch("https://api.spotify.com/v1/me/player/play", {
           method: 'PUT',
           body: JSON.stringify({ context_uri: spotify_uri }),
