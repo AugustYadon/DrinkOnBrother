@@ -377,17 +377,19 @@
         else{return;}
 
         shots = 60;
-        if((60-shots) * 1.5 > (beers+1)*12)
-        {
-          beers++;
-          document.getElementById("beercount").innerHTML = beers + " beers consumed"
-          document.getElementById("canpop").play();
-        }
+
         // Set the date we're counting down to
         var countDownDate = new Date().getTime() + 3600000;
 
         // Update the count down every 1 second
         skipper = setInterval(function() {
+
+          if((60-shots) * 1.5 >= (beers+1)*12)
+          {
+            beers++;
+            document.getElementById("beercount").innerHTML = beers + " beers consumed"
+            setTimeout(function() { document.getElementById("canpop").play(); }, 2500);
+          }
 
           // Get todays date and time
           var now = new Date().getTime();
