@@ -1,0 +1,188 @@
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+#login, #loggedin {
+  text-align: center;
+}
+
+#login-button {
+  margin: 30px;
+}
+
+#loggedin img {
+  margin: 0 auto;
+}
+
+.playlist {
+  width: 400px;
+  text-align: left;
+  margin: 10px auto;
+  display: inline-block;
+}
+
+.playlist img {
+  object-fit: cover;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 70%;
+    height: 15px;
+    background: radial-gradient(rgba(32, 33, 35,0.9), rgba(0,0,0,0) 70%);;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 15px;
+    background: rgb(30, 215, 96);
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 15px;
+    background: rgb(30, 215, 96);
+    cursor: pointer;
+}
+
+#profileswoop {
+  max-height: 0px;
+}    
+#profilename {
+  max-height: 0px;
+}    
+
+@media screen and (min-width:768px) {
+#profileswoop {
+  max-height: 40px;
+}    
+#profilename {
+  max-height: 40px;
+}    
+}
+
+
+
+
+
+
+
+
+
+
+/* The switch - the box around the switcher */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 39px;
+  height: 22px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The switcher */
+.switcher {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switcher:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .switcher {
+  background-color: rgb(30, 215, 96);
+}
+
+input:focus + .switcher {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .switcher:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
+}
+
+/* Rounded switchers */
+.switcher.round {
+  border-radius: 20px;
+}
+
+.switcher.round:before {
+  border-radius: 50%;
+}
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+form.example button:hover {
+    background: #0b7dda;
+}
+
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}

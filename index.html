@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Auggo's Power Hour</title>
+
+    <!-- bootstrap.min.css -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+
+    <!-- SEARCH ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+
+  </head>
+
+  <body>
+    <div style="border-radius: 0px; ;background: rgb(32, 33, 35); border: none;" class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+<!-- ko if: isLoggedIn --><a class="navbar-brand" href="https://en.wikipedia.org/wiki/Power_hour"><span style="color: white; font-family:'Oswald'; font-size: 1.6em">Drink on brother</span></a>            <!-- /ko -->
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <!-- ko ifnot: isLoggedIn -->
+              <li class="active">
+                <div id="login" style="max-height: 50px;">
+                  <div data-bind="if: loginErrorMessage">
+                    <div class="alert alert-danger" data-bind="text: loginErrorMessage"></div>
+                  </div>
+                  <button id="login-button" style="color: white; background: transparent;border: none; margin-top: 15px; font-family:'Oswald'" class="btn btn-primary" data-bind="click: login">Log in via Spotify</button>
+                </div>
+              </li>
+            <!-- /ko -->
+            <!-- ko if: isLoggedIn -->
+              <li class="active">
+                <div id="loggedin">
+                  <div data-bind="with: user">
+                    <div>
+                      <img style="padding-top: 2px; max-height: 50px; clip-path: circle(23px at center); " data-bind="attr: {src: images[0].url}">
+                      <img id="profileswoop" style="margin-bottom: -54px; margin-left: -50px; position: absolute; filter: brightness(125%);" src="/img/swoopyarrow.jpg">      
+                      <div id="profilename" style="margin-bottom: -82px; margin-left: -170px;position: absolute; padding-top: 15px;  font-size:1.5em;font-family:'Oswald'"><span data-bind="text: display_name"></span></div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="active">
+                <div id="loggedin" style="max-height: 50px;">
+                  <button id="login-button" style="color: white; background: transparent;border: none; margin-top: 15px; font-family:'Oswald'" data-bind="click: logout">Log out</button>
+                </div>
+              </li>
+            <!-- /ko -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- INTRO GREETING -->
+      <!-- ko ifnot: isLoggedIn -->
+      <br><br><br><br><br><br><br><br>      <br><br><br><br><br><br><br><br>
+      <p style="font-size:1.4em; font-family:'Oswald'">Beer has always, since the dawn of time, been man's primary source of sustenance. Alongside every magnificent triumph, and through every great struggle, man has endured with a frosty lite pilsner in hand. For this, among many other reasons, I say: <br>
+        <div style="color: rgb(30, 215, 96);font-size:1.6em;"><b> Drink on brother.</b></div></p>
+      <p style="font-size:2em; font-family:'Oswald'"> -Sir David Attenborough</p>
+      <!-- /ko -->
+
+
+
+      <!-- ko if: isLoggedIn -->
+        <div id="loggedin"><br /><br />
+         
+         <!-- SETTINGS -->
+        <div>
+          <div style="background-color:rgb(32, 33, 35); font-family:'Oswald'; height: 30px"><span style="position:relative; color:white; font-family:'Oswald'; font-size: 1.6em">Settings</span></div>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-4 col-md-4">
+                <!-- BEEP TOGGLE -->
+                <span style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em;line-height: 2em;">Minute Beep [On/Off]</span><br>
+                <label class="switch">
+                  <input onchange="beeptoggle(this)" checked="true" type="checkbox">
+                  <span class="switcher round"></span>
+                </label>
+              </div>
+              <hr class="visible-xs visible-sm">
+              <!--VOLUME SLIDER -->
+              <div class="col-lg-4 col-md-4"><div class="slidecontainer">
+                <span style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; line-height: 2em; ">Beep volume</span>
+                <input onchange="changevolume(this)" type="range" min="1" max="100" value="50" class="slider" id="myRange">
+              </div></div>
+              <hr class="visible-xs visible-sm">
+              <div class="col-lg-4 col-md-4">
+                <span style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em">Beep Style</span><br>
+                <div style="padding-top: 12px">
+                  <select onchange="changebeep(this)">
+                    <option value="/audio/beep.wav">Beep</option>
+                    <option value="/audio/drinkonbrother.wav">Drink On Brother</option>
+                    <option value="/audio/bell.wav">Bell</option>
+                    <option value="/audio/slapbass.wav">Slap Bass</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+        </div>
+              <hr class="visible-xs visible-sm">
+              <br class="visible-md visible-lg">
+        </div>
+
+         <!-- CONTROLS -->
+         <div>
+          <div style="background-color:rgb(32, 33, 35); font-family:'Oswald'; height: 30px"><span style="position:relative; color:white; font-family:'Oswald'; font-size: 1.6em">Controls</span></div>
+          <br>
+          <input class="btn btn-primary" style="background-color: rgb(30, 215, 96); border-color: rgb(40, 200, 104);" type="button" value="Begin Power Hour" onclick="beginPowerHour();">
+          <input class="btn btn-primary" style="background-color: rgb(30, 215, 96); border-color: rgb(40, 200, 104)" type="button" value="Pause" onclick="pausebutton();">
+          <input class="btn btn-primary" style="background-color: rgb(30, 215, 96); border-color: rgb(40, 200, 104)" type="button" value="End" onclick="stopPowerHour();">
+<!--           <form class="example" style="margin:auto;max-width:300px">
+            <input type="text" placeholder="Search for song..." name="search2">
+            <button type="button"><i class="fa fa-search"></i></button>
+          </form> -->
+<!--           <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+            <input type="text" placeholder="Search for song..." name="search2">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form> -->
+        </div>
+
+
+
+         <!-- INFO VIEWER -->
+
+          <br>
+          <div style="background-color:rgb(32, 33, 35); font-family:'Oswald'; height: 30px"><span style="position:relative; color:white; font-family:'Oswald'; font-size: 1.6em">Currenly Playing</span></div>
+          <div class="container-fluid">
+
+              <div class="row">
+                <div class="col-lg-4 col-md-4">
+                  <!-- Current Song -->
+                  <img src="/img/freq.gif" class="row" style="max-height: 85px">
+                  <span id="currentsonginfo" class="row" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em;">Song - Artist - Album - Year </span>
+                </div>
+                <hr class="visible-xs visible-sm">
+                <!--VOLUME SLIDER -->
+                <div class="col-lg-4 col-md-4"><div class="slidecontainer">
+                  <img id="albumart" style="max-height: 165px;padding-top: 5px" src=""/>
+                </div></div>
+                <hr class="visible-xs visible-sm">
+                <div class="col-lg-4 col-md-4">
+                  <span class="row" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; "><p id="countdown">60:00</p></span>
+                  <span class="row" id="beercount" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; ">0 beers consumed</span>
+                </div>
+              </div>
+
+          </div>
+
+
+
+        <hr>
+        <!-- Playlists -->
+        <span style="font-family:'Oswald'; font-size: 3em">My playlists</span>
+        <ul style="background: radial-gradient(rgba(32, 33, 35,0.4), rgba(0,0,0,0) 70%);" data-bind="foreach: playlists">
+          <li class="media playlist">
+            <div class="media-left">
+              <img data-bind="attr: {src: images.length ? images[0].url : ''}" width="200" height="200" />
+            </div>
+            <div class="media-body">
+              <div class="media-heading" data-bind="text:name"></div>
+              <input class="btn btn-primary" style="background-color: rgb(30, 215, 96); border-color: rgb(40, 200, 104);" type="button" value="Playlist Power Hour" data-bind="attr: {'data-uri': uri}" data-uri="" onclick='beginPowerHour(this);'>
+
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- /ko -->
+    </div>
+
+    <!-- jQuery required for Bootstrap core JavaScript -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/knockout/dist/knockout.js"></script>
+    
+    <!-- SPOTIFY -->
+    <script src="bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
+    
+    <!-- OAUTH -->
+    <script src="js/oauth-config.js"></script>
+    <script src="js/oauth-manager.js"></script>
+
+    <!-- AUDIO -->
+    <audio id="canpop" src="/audio/canopen.wav" ></audio>
+    <audio id="beep" volume="0.5" src="/audio/beep.wav" ></audio>
+
+    <!-- CUSTOM -->
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+      var player;
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        var tok = localStorage.getItem('sp-access-token');
+        player = new Spotify.Player({
+          name: 'Drink On Brother Browser Player',
+          getOAuthToken: cb => { cb(tok); }
+        });
+
+        // Connect to the player!
+        player.connect();
+
+        document.getElementById('beep').volume = 0.5;
+
+        SetSongInfo();
+      };
+
+
+      // Toggle BEEP
+      var ischecked = true;
+      function beeptoggle(cb) {
+        ischecked = cb.checked;
+        console.log(cb.checked);
+        var beep = document.getElementById('beep');
+        var canpop = document.getElementById('canpop');
+        
+     
+        if(ischecked===true){
+          beep.volume = vol; 
+          canpop.volume = vol;
+          beep.play();
+        }
+        else {
+          beep.volume = 0;
+          canpop.volume = 0;
+        }
+      } 
+      
+
+      // CHANGE BEEP
+      function changebeep(cb) {
+        var beeptype = cb.value;
+        console.log(cb.value);
+        if (beeptype=="") return;
+
+        var beep = document.getElementById('beep');
+        beep.src = beeptype; 
+
+        if(ischecked===true){
+          beep.play();
+        } 
+      }
+
+      // CHANGE VOLUME
+      var vol = .5;
+      function changevolume(cv) {
+        vol = cv.value/100;
+        if (vol > 1 || vol < 0 || ischecked === false) return;
+
+        var beep = document.getElementById('beep');
+        document.getElementById('canpop').volume = vol;
+        beep.volume = vol; 
+        beep.play();
+      }
+
+      const play = ({
+        spotify_uri,
+        playerInstance: {
+          _options: {
+            getOAuthToken
+          }
+        }
+      }) => {
+        getOAuthToken(access_token => {
+          fetch('https://api.spotify.com/v1/me/player/play', {
+            method: 'PUT',
+            body: JSON.stringify({ uris: [spotify_uri] }),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${access_token}`
+            },
+          });
+        });
+      };
+
+
+      function PlayPlaylist(spotify_uri){
+        var tok = localStorage.getItem('sp-access-token');
+        fetch("https://api.spotify.com/v1/me/player/play", {
+          method: 'PUT',
+          body: JSON.stringify({ context_uri: spotify_uri }),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+tok}
+        });
+      }
+
+      function getOAuthToken(){return localStorage.getItem('sp-access-token');}
+
+
+      var pausednow = false;
+      function pausebutton(){
+        pausednow = !pausednow;
+        if(pausednow){
+          player.pause().then(() => {
+            console.log('Resumed!');
+          });
+        }
+        else{ 
+          player.resume().then(() => {
+            console.log('Resumed!');
+          });
+        }
+      } 
+
+      function SkipToNextSong(){
+        var tok = localStorage.getItem('sp-access-token');
+        fetch("https://api.spotify.com/v1/me/player/next", {
+          method: 'POST',
+          headers: {Authorization: 'Bearer '+tok}
+        });
+      }
+
+      function SetSongInfo(){
+        setInterval(function(){
+          var tok = localStorage.getItem('sp-access-token');
+          fetch("https://api.spotify.com/v1/me/player", {
+            method: 'GET',
+            'Accept': 'application/json',
+            headers: {'Content-Type': 'application/json', Authorization: 'Bearer '+tok}
+          }).then(response => response.json())
+            .then(data => { if(data && data.item && data.item.name){
+              document.getElementById("currentsonginfo").innerHTML = data.item.name + " - " + data.item.artists[0].name + " - "  + data.item.album.name;
+              document.getElementById("albumart").src = data.item.album.images[0].url;
+            }
+          });
+        }, 15000);
+      }
+  
+
+      // BEGIN
+      // POWER
+      // HOUR
+      var skipper;
+      var shots;
+      var beers;
+      var inpowerhour = false;
+      function beginPowerHour(alb)
+      {
+        if(!inpowerhour)
+        {
+          inpowerhour = true;
+          console.log("POWER HOUR STARTING")
+          beers = 0;
+
+          if(alb ){
+            PlayPlaylist(alb.dataset.uri);
+          }
+        }
+        else{return;}
+
+        shots = 60;
+        if((60-shots) * 1.5 > (beers+1)*12)
+        {
+          beers++;
+          document.getElementById("beercount").innerHTML = beers + " beers consumed"
+          document.getElementById("canpop").play();
+        }
+        // Set the date we're counting down to
+        var countDownDate = new Date().getTime() + 3600000;
+
+        // Update the count down every 1 second
+        skipper = setInterval(function() {
+
+          // Get todays date and time
+          var now = new Date().getTime();
+
+          // Find the distance between now and the count down date
+          var distance = countDownDate - now;
+
+          // Time calculations for days, hours, minutes and seconds
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // Display the result in the element with id="demo"
+          document.getElementById("countdown").innerHTML = minutes + ":" + seconds;
+
+          if(shots*60000 > distance){
+             shots--;
+             SkipToNextSong(); 
+             document.getElementById("beep").play();
+          }
+
+          // If the count down is finished, write some text 
+          if (distance < 0) {
+            clearInterval(skipper);
+            inpowerhour = false;
+            document.getElementById("countdown").innerHTML = "EXPIRED";
+          }
+        }, 900);
+      }
+
+      function pausePowerHour(){
+        clearInterval(skipper);
+        inpowerhour = false;
+      }
+
+      function stopPowerHour(){
+        document.getElementById("countdown").innerHTML = "00:00";
+        clearInterval(skipper);
+        inpowerhour = false;
+      }
+
+
+    </script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  </body>
+</html>
