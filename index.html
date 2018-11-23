@@ -167,8 +167,8 @@
                 </div></div>
                 <hr class="visible-xs visible-sm">
                 <div class="col-lg-4 col-md-4">
-                  <span class="row" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; "><p id="countdown">60:00</p></span>
-                  <span class="row" id="beercount" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; ">0 beers consumed</span>
+                  <span class="row" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 5em; "><p id="countdown">60:00</p></span>
+                  <span class="row" id="beercount" style="color:rgb(32, 33, 35); font-family:'Oswald'; font-size: 1.6em; margin-top: -25px;">0 beers consumed</span>
                 </div>
               </div>
 
@@ -211,7 +211,7 @@
     <script src="js/oauth-manager.js"></script>
 
     <!-- AUDIO -->
-    <audio id="canpop" src="/audio/canopen.wav" ></audio>
+    <audio id="canpop" volume="0.5" src="/audio/canopen.wav" ></audio>
     <audio id="beep" volume="0.5" src="/audio/beep.wav" ></audio>
 
     <!-- CUSTOM -->
@@ -384,6 +384,9 @@
         // Update the count down every 1 second
         skipper = setInterval(function() {
 
+          console.log(60-shots);
+          console.log((60-shots) * 1.5);
+          console.log((beers+1)*12);
           if((60-shots) * 1.5 >= (beers+1)*12)
           {
             beers++;
@@ -398,8 +401,9 @@
           var distance = countDownDate - now;
 
           // Time calculations for days, hours, minutes and seconds
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          var minutes = ("0" + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).slice(-2);
+
+          var seconds = ("0" + Math.floor((distance % (1000 * 60)) / 1000)).slicer(-2);
 
           // Display the result in the element with id="demo"
           document.getElementById("countdown").innerHTML = minutes + ":" + seconds;
